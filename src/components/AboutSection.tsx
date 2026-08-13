@@ -7,8 +7,6 @@ import {
   HiAcademicCap,
   HiLightningBolt,
 } from "react-icons/hi";
-import { FaAws } from "react-icons/fa";
-import { SiGooglecloud } from "react-icons/si";
 
 const stats = [
   { value: "2+", label: "Tahun Pengalaman", suffix: "" },
@@ -41,21 +39,6 @@ const skills = [
       "Membangun antarmuka pengguna yang responsif, aksesibel, dan lightning-fast. Setiap piksel dirancang untuk memberikan pengalaman pengguna terbaik.",
     tags: ["React.js", "Bootstrap", "Tailwind CSS", "Figma"],
     color: "from-amber-500 to-orange-400",
-  },
-];
-
-const certifications = [
-  {
-    icon: <FaAws className="text-3xl text-[#ff9900]" />,
-    name: "AWS Certification",
-    year: "2026",
-    desc: "Amazon Web Services Certified",
-  },
-  {
-    icon: <SiGooglecloud className="text-3xl text-[#4285f4]" />,
-    name: "Google Cloud Professional",
-    year: "2026",
-    desc: "Google Cloud Platform Certified",
   },
 ];
 
@@ -153,7 +136,7 @@ export default function AboutSection() {
         </div>
 
         {/* Skills Cards */}
-        <div className="grid md:grid-cols-3 gap-6 mb-16">
+        <div className="grid md:grid-cols-3 gap-6">
           {skills.map((skill) => (
             <div
               key={skill.title}
@@ -179,27 +162,6 @@ export default function AboutSection() {
                     {tag}
                   </span>
                 ))}
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Certifications */}
-        <div className="grid sm:grid-cols-2 gap-6">
-          {certifications.map((cert) => (
-            <div
-              key={cert.name}
-              className="glass-card rounded-2xl p-6 flex items-center gap-5 group"
-            >
-              <div className="flex-shrink-0 w-16 h-16 rounded-xl bg-dark-700 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                {cert.icon}
-              </div>
-              <div>
-                <h4 className="text-lg font-bold text-white">{cert.name}</h4>
-                <p className="text-sm text-slate-400">{cert.desc}</p>
-                <span className="text-xs text-electric-400 font-semibold">
-                  {cert.year}
-                </span>
               </div>
             </div>
           ))}
