@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import {
   HiCode,
   HiDatabase,
-  HiAcademicCap,
   HiBadgeCheck,
   HiDesktopComputer,
 } from "react-icons/hi";
@@ -17,7 +16,7 @@ interface TimelineItem {
   organization: string;
   description: string;
   icon: React.ReactNode;
-  type: "work" | "education" | "certification";
+  type: "work" | "certification";
   color: string;
 }
 
@@ -72,17 +71,27 @@ const timeline: TimelineItem[] = [
     type: "work",
     color: "from-green-500 to-emerald-400",
   },
-  {
-    year: "2024",
-    title: "S1 Informatika — Very Satisfactory",
-    organization: "Universitas",
-    description:
-      'Lulus dengan predikat Very Satisfactory. Thesis: "Web-Based IT Service Management (ITSM) Design and Implementation For Ticketing Documentation and Troubleshooting" — mendemonstrasikan kemampuan dalam merancang sistem enterprise.',
-    icon: <HiAcademicCap className="text-xl" />,
-    type: "education",
-    color: "from-amber-500 to-yellow-400",
-  },
 ];
+
+function TypeBadge({ type }: { type: TimelineItem["type"] }) {
+  const config = {
+    work: { bg: "bg-blue-500/10", text: "text-blue-400", label: "Karir" },
+    certification: {
+      bg: "bg-green-500/10",
+      text: "text-green-400",
+      label: "Sertifikasi",
+    },
+  } as const;
+  const c = config[type];
+  return (
+    <span
+      className={`inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded-full ${c.bg} ${c.text} font-medium`}
+    >
+      <HiBadgeCheck className="text-xs" />
+      {c.label}
+    </span>
+  );
+}
 
 function TimelineCard({
   item,
@@ -97,76 +106,32 @@ function TimelineCard({
 
   return (
     <div
-      className={`relative flex items-center mb-12 transition-all duration-700 ${
+      className={`relative grid grid-cols-[2.5rem_1fr] md:grid-cols-[1fr_3rem_1fr] items-start md:items-center gap-x-4 md:gap-x-8 mb-12 transition-all duration-700 ${
         isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
       }`}
       style={{ transitionDelay: `${index * 150}ms` }}
     >
-      {/* Desktop layout */}
-      <div className="hidden md:grid md:grid-cols-[1fr_auto_1fr] w-full items-center gap-8">
-        {/* Left content */}
-        <div className={isLeft ? "" : "order-3"}>
-          {isLeft && (
-            <div className="glass-card rounded-2xl p-6 text-right group">
-              <div className="flex items-center justify-end gap-2 mb-2">
-                <TypeBadge type={item.type} />
-                <span className="text-xs text-electric-400 font-semibold">
-                  {item.year}
-                </span>
-              </div>
-              <h3 className="text-lg font-bold text-white">{item.title}</h3>
-              <p className="text-sm text-slate-500 mt-1">{item.organization}</p>
-              <p className="text-sm text-slate-400 mt-3 leading-relaxed">
-                {item.description}
-              </p>
-            </div>
-          )}
-        </div>
-
-        {/* Center dot */}
-        <div className="flex flex-col items-center">
-          <div
-            className={`w-12 h-12 rounded-full bg-gradient-to-br ${item.color} flex items-center justify-center text-white shadow-lg z-10`}
-          >
-            {item.icon}
-          </div>
-        </div>
-
-        {/* Right content */}
-        <div className={isLeft ? "order-3" : ""}>
-          {!isLeft && (
-            <div className="glass-card rounded-2xl p-6 group">
-              <div className="flex items-center gap-2 mb-2">
-                <TypeBadge type={item.type} />
-                <span className="text-xs text-electric-400 font-semibold">
-                  {item.year}
-                </span>
-              </div>
-              <h3 className="text-lg font-bold text-white">{item.title}</h3>
-              <p className="text-sm text-slate-500 mt-1">{item.organization}</p>
-              <p className="text-sm text-slate-400 mt-3 leading-relaxed">
-                {item.description}
-              </p>
-            </div>
-          )}
+      <div className="col-start-1 row-start-1 md:col-start-2 flex justify-center z-10">
+        <div
+          className={`w-10 h-10 md:w-12 md:h-12 rounded-full bg-gradient-to-br ${item.color} flex items-center justify-center text-white shadow-lg`}
+        >
+          {item.icon}
         </div>
       </div>
 
-      {/* Mobile layout */}
-      <div className="md:hidden flex gap-4 w-full pl-10">
-        <div className="absolute left-5 top-0 w-10 h-10 rounded-full bg-gradient-to-br flex items-center justify-center text-white shadow-lg z-10"
-          style={{
-            backgroundImage: `linear-gradient(to bottom right, var(--tw-gradient-stops))`,
-          }}
-        >
+      <div
+        className={`col-start-2 row-start-1 ${
+          isLeft
+            ? "md:col-start-1 md:row-start-1 md:text-right"
+            : "md:col-start-3 md:row-start-1"
+        }`}
+      >
+        <div className={`glass-card rounded-2xl p-6 ${isLeft ? "md:text-right" : ""}`}>
           <div
-            className={`w-10 h-10 rounded-full bg-gradient-to-br ${item.color} flex items-center justify-center text-white`}
+            className={`flex items-center gap-2 mb-2 ${
+              isLeft ? "md:justify-end" : ""
+            }`}
           >
-            {item.icon}
-          </div>
-        </div>
-        <div className="glass-card rounded-2xl p-6 flex-1 ml-6">
-          <div className="flex items-center gap-2 mb-2">
             <TypeBadge type={item.type} />
             <span className="text-xs text-electric-400 font-semibold">
               {item.year}
@@ -180,31 +145,6 @@ function TimelineCard({
         </div>
       </div>
     </div>
-  );
-}
-
-function TypeBadge({ type }: { type: string }) {
-  const config: Record<string, { bg: string; text: string; label: string }> = {
-    work: { bg: "bg-blue-500/10", text: "text-blue-400", label: "Karir" },
-    education: {
-      bg: "bg-amber-500/10",
-      text: "text-amber-400",
-      label: "Pendidikan",
-    },
-    certification: {
-      bg: "bg-green-500/10",
-      text: "text-green-400",
-      label: "Sertifikasi",
-    },
-  };
-  const c = config[type] || config.work;
-  return (
-    <span
-      className={`inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded-full ${c.bg} ${c.text} font-medium`}
-    >
-      <HiBadgeCheck className="text-xs" />
-      {c.label}
-    </span>
   );
 }
 
@@ -232,11 +172,9 @@ export default function ExperienceSection() {
       ref={sectionRef}
       className="relative py-24 lg:py-32 overflow-hidden"
     >
-      {/* Background */}
       <div className="absolute top-1/3 right-0 w-96 h-96 bg-electric-500/5 rounded-full blur-3xl pointer-events-none" />
 
       <div className="max-w-5xl mx-auto px-6">
-        {/* Section Header */}
         <div
           className={`text-center mb-20 transition-all duration-1000 ${
             isVisible
@@ -252,19 +190,17 @@ export default function ExperienceSection() {
             <span className="gradient-text">Certification</span>
           </h2>
           <p className="mt-4 text-slate-400 text-lg max-w-2xl mx-auto">
-            Dari bangku kuliah hingga sertifikasi cloud elite — setiap langkah
+            Dari proyek pertama hingga sertifikasi cloud — setiap langkah
             membentuk expertise yang siap mengakselerasi bisnis Anda.
           </p>
         </div>
 
-        {/* Timeline */}
         <div className="relative">
-          {/* Vertical line */}
           <div className="timeline-line" />
 
           {timeline.map((item, idx) => (
             <TimelineCard
-              key={`${item.title}-${idx}`}
+              key={item.title}
               item={item}
               index={idx}
               isVisible={isVisible}

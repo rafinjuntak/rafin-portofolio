@@ -56,6 +56,7 @@ export default function HeroSection() {
           src="/images/hero-bg.jpg"
           alt="Hero background"
           fill
+          sizes="100vw"
           className="object-cover opacity-30"
           priority
         />
@@ -187,6 +188,7 @@ export default function HeroSection() {
                   src="/images/profile.jpg"
                   alt="Rafin Simanjuntak"
                   fill
+                  sizes="(max-width: 640px) 288px, (max-width: 1024px) 320px, 384px"
                   className="object-cover rounded-full p-1"
                   priority
                 />

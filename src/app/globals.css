@@ -127,9 +127,9 @@ body {
   transform: translateX(-50%);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .timeline-line {
-    left: 20px;
+    left: 1.25rem;
   }
 }
 
